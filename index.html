@@ -36,28 +36,21 @@
             background-color: var(--fallback-bg);
         }
 
-        /* === Видео-фон === */
-        /* Общие настройки для обоих видео */
         .video-bg {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-        }
-
-        /* 1. Заднее видео: растягивается и сильно размывается */
-        .video-blur {
-            z-index: -3;
-            object-fit: cover;
-            filter: blur(20px) brightness(0.6); /* Размытие и лёгкое затемнение */
-        }
-
-        /* 2. Переднее видео: центрируется в оригинальных пропорциях */
-        .video-main {
+            /* Ставим минимальный запас, чтобы гарантированно убрать полосы */
+            min-width: 100vw;
+            min-height: 100vh;
+            width: auto;
+            height: auto;
             z-index: -2;
-            object-fit: contain;
+            /* Центрируем и делаем масштаб 105%, чтобы мягко вписать в экран */
+            transform: translate(-50%, -50%) scale(1.05);
+            object-fit: cover;
+            /* Фокусируемся строго по центру видео */
+            object-position: center center; 
         }
 
         /* Тёмный фильтр поверх видео */
@@ -238,16 +231,10 @@
 </head>
 <body>
 
-    <!-- ЗАДНИЙ ФОН: Размытое видео для заполнения пустот по бокам -->
-    <video autoplay loop muted playsinline class="video-bg video-blur">
+    <!-- Одно видео на весь фон без лишней нагрузки -->
+    <video autoplay loop muted playsinline class="video-bg">
         <source src="https://files.catbox.moe/ad64h7.mp4" type="video/mp4">
     </video>
-
-    <!-- ПЕРЕДНИЙ ФОН: Чёткое видео по центру, которое не обрезается -->
-    <video autoplay loop muted playsinline class="video-bg video-main">
-        <source src="https://files.catbox.moe/ad64h7.mp4" type="video/mp4">
-    </video>
-    
     <div class="video-overlay"></div>
 
     <div class="main-card">

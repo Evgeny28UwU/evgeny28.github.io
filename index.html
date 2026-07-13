@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evgeny28 - Профиль ПК-боярина</title>
+    <style>
+        /* === Основные стили (База) === */
+        :root {
+            --bg-color: #0b111a; /* Тёмный, почти чёрный фон */
+            --text-color: #ffffff; /* Белый текст */
+            --accent-color: #f7d188; /* Золотистый акцент (как рамка) */
+            --panel-bg: #1a2530; /* Чуть светлее фон для панели */
+            --sub-text: #9ab4cc; /* Приглушённый цвет для подписей */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle, #2a3e5c 1px, transparent 1px);
+            background-size: 50px 50px; /* Звёздное небо на минималках */
+            overflow: hidden; /* Чтобы не скроллился весь body */
+        }
+
+        /* === Главная панель (Центр) === */
+        .main-card {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 20px;
+            width: 80vw; /* Адаптивная ширина на ПК */
+            max-width: 1000px; /* Чтобы не растягивалась слишком сильно */
+            height: 90vh; /* Почти вся высота экрана */
+            overflow: hidden; /* Обрезаем, если контент больше */
+            position: relative;
+            box-shadow: 0 0 30px rgba(247, 209, 136, 0.2);
+            display: grid;
+            grid-template-columns: 2fr 3fr; /* Две колонки: Аватар+Инфо и Статы */
+        }
+
+        /* === Левая колонка (Аватар, Имя, Инфо) === */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Центрируем по вертикали */
+            padding: 40px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nickname {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .quote {
+            font-size: 1em;
+            color: var(--accent-color);
+            font-style: italic;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* === Правая колонка (Статы) === */
+        .right-column {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Расстояние между статами */
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-icon img {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-title {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .stat-data {
+            color: var(--text-color);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        /* === Боковая панель (Меню) === */
+        .side-menu {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            background-color: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(247, 209, 136, 0.3);
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-color);
+            position: relative;
+        }
+
+        .menu-btn span::before,
+        .menu-btn span::after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-color);
+            position: absolute;
+        }
+
+        .menu-btn span::before { top: -6px; }
+        .menu-btn span::after { top: 6px; }
+
+        /* === Нижняя подпись === */
+        .credits {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--sub-text);
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        /* === Адаптация (если вдруг кто-то откроет с телефона) === */
+        @media (max-width: 768px) {
+            .main-card {
+                width: 90vw;
+                height: auto;
+                grid-template-columns: 1fr; /* Одна колонка */
+                overflow: visible; /* Разрешаем скролл */
+            }
+
+            .left-column {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 30px;
+            }
+
+            .avatar {
+                width: 150px;
+                height: 150px;
+            }
+
+            .nickname { font-size: 1.5em; }
+            
+            .right-column { padding: 30px; gap: 20px; }
+            .stat-icon { width: 50px; height: 50px; }
+            
+            .side-menu { left: 10px; top: auto; bottom: 20px; transform: none; flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Боковое меню -->
+    <div class="side-menu">
+        <div class="menu-btn"><span></span></div>
+        <div class="menu-btn"><span></span></div>
+        <div class="menu-btn"><span></span></div>
+        <div class="menu-btn"><span></span></div>
+        <div class="menu-btn"><span></span></div>
+        <div class="menu-btn"><span></span></div>
+    </div>
+
+    <!-- Основная карточка -->
+    <div class="main-card">
+        
+        <!-- Левая колонка -->
+        <div class="left-column">
+            <!-- Замени на свой файл, если есть. Если нет, я создал похожий -->
+            <img src="avatar.png" alt="Raccoon Avatar" class="avatar">
+            <h1 class="nickname">EVGENY28 (ЖЕКА/ЕВГЕНИЙ/<br>ЖЕНЁК)</h1>
+            <p class="quote">«Я просто скитаюсь по жизни, и попутно<br>коллекционирую фобии»</p>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="right-column">
+            
+            <!-- Стат 1: Локация -->
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <!-- Иконка гео-тега (можно заменить на SVG) -->
+                    <img src="https://img.icons8.com/color/100/marker.png" alt="marker">
+                </div>
+                <div class="stat-content">
+                    <div class="stat-title">LOCATION</div>
+                    <div class="stat-data">Челодой моловек живёт в Грузии,<br>говорит на русском, и технический админ</div>
+                </div>
+            </div>
+
+            <!-- Стат 2: Сетап (ПК) -->
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <!-- Иконка ПК -->
+                    <img src="https://img.icons8.com/color/100/imac.png" alt="imac">
+                </div>
+                <div class="stat-content">
+                    <div class="stat-title">SETUP</div>
+                    <div class="stat-data">ОЗУ: 32GB DDR4 | Видео: RTX 3070 Ti<br>Проц: i7-10700K | Память: 450GB SSD</div>
+                </div>
+            </div>
+
+            <!-- Стат 3: Гейминг -->
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <!-- Иконка джойстика -->
+                    <img src="https://img.icons8.com/color/100/controller.png" alt="controller">
+                </div>
+                <div class="stat-content">
+                    <div class="stat-title">GAMING</div>
+                    <div class="stat-data">Changed | Indigo Park | Garry's Mod<br>Любимые игры + Любовь: Уже занят 💘</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Подпись внизу -->
+    <div class="credits">DESIGNED FOR PC</div>
+
+</body>
+</html>

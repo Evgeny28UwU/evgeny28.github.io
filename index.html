@@ -9,12 +9,11 @@
         :root {
             --text-color: #ffffff; 
             --accent-color: #f7d188; 
-            --panel-bg: rgba(26, 37, 48, 0.85); 
+            --panel-bg: rgba(26, 37, 48, 0.65); /* Сделали панель ещё чуть прозрачнее для красоты */
             --sub-text: #9ab4cc; 
             --discord-purple: #a482ff; 
             --btn-bg: rgba(255, 255, 255, 0.07);
             --btn-hover: rgba(247, 209, 136, 0.2);
-            /* ЗАПАСНОЙ ФОН: Если видео не загрузится, сайт будет таким тёмно-синим */
             --fallback-bg: #0b111a; 
         }
 
@@ -34,7 +33,6 @@
             position: relative;
             padding: 40px 20px;
             overflow-x: hidden;
-            /* Устанавливаем запасной фон */
             background-color: var(--fallback-bg);
         }
 
@@ -50,14 +48,6 @@
             z-index: -2;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            /* Скрываем видео по умолчанию, пока оно не загрузится */
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        /* Показываем видео, когда оно готово */
-        .video-bg.loaded {
-            opacity: 1;
         }
 
         /* Тёмный фильтр поверх видео */
@@ -67,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(5, 8, 13, 0.4);
+            background-color: rgba(5, 8, 13, 0.45);
             z-index: -1;
         }
 
@@ -83,8 +73,8 @@
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
             display: grid;
             grid-template-columns: 2fr 3fr; 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px); /* Эффект матового стекла */
+            -webkit-backdrop-filter: blur(12px);
         }
 
         /* === Левая колонка === */
@@ -95,7 +85,7 @@
             justify-content: center; 
             padding: 40px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
-            background: linear-gradient(180deg, rgba(26,37,48,0.6) 0%, rgba(15,23,33,0.8) 100%);
+            background: linear-gradient(180deg, rgba(26,37,48,0.5) 0%, rgba(15,23,33,0.7) 100%);
             border-radius: 18px 0 0 18px;
         }
 
@@ -238,12 +228,9 @@
 </head>
 <body>
 
-    <!-- Тег видео для фона. Мы убрали 'autoplay' и добавили 'id' -->
-    <video loop muted playsinline id="bgVideo" class="video-bg">
-        <!-- Убедись, что файл bg.mp4 лежит в той же папке! -->
-        <source src="bg.mp4" type="video/mp4">
-        <!-- Здесь можно добавить запасную картинку, если видео совсем не поддерживается -->
-        <img src="fallback.jpg" alt="Fallback Background">
+    <!-- Тег видео для фона с твоей ссылкой на Catbox -->
+    <video autoplay loop muted playsinline class="video-bg">
+        <source src="https://files.catbox.moe/ad64h7.mp4" type="video/mp4">
     </video>
     <div class="video-overlay"></div>
 
@@ -251,6 +238,7 @@
         
         <!-- Левая колонка -->
         <div class="left-column">
+            <!-- Положи свою аватарку как аватар.png рядом с этим файлом -->
             <img src="avatar.png" alt="Avatar" class="avatar">
             <h1 class="nickname">EVGENY28<br>(ЖЕКА/ЕВГЕНИЙ/<br>ЖЕНЁК)</h1>
             <p class="quote">«Я просто скитаюсь по жизни, и попутно коллекционирую фобии»</p>
@@ -329,23 +317,6 @@
         </div>
 
     </div>
-
-    <!-- МАГИЧЕСКИЙ СКРИПТ: Запускает видео, когда страница готова -->
-    <script>
-        window.addEventListener('load', function() {
-            var video = document.getElementById('bgVideo');
-            
-            // Пробуем запустить видео
-            video.play().then(function() {
-                // Если запустилось, добавляем класс 'loaded', чтобы показать его плавно
-                video.classList.add('loaded');
-            }).catch(function(error) {
-                // Если браузер заблокировал автозапуск, видео останется скрытым
-                // и будет виден запасной фон body. Это нормально!
-                console.log("Автозапуск видео заблокирован: ", error);
-            });
-        });
-    </style>
 
 </body>
 </html>

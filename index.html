@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evgeny28 - Профиль ПК-боярина</title>
+    <title>Evgeny28 - Профиль</title>
     <style>
         /* === Основные стили (База) === */
         :root {
-            --bg-color: #0b111a; /* Тёмный, почти чёрный фон */
-            --text-color: #ffffff; /* Белый текст */
-            --accent-color: #f7d188; /* Золотистый акцент (как рамка) */
-            --panel-bg: #1a2530; /* Чуть светлее фон для панели */
-            --sub-text: #9ab4cc; /* Приглушённый цвет для подписей */
+            --bg-color: #0b111a; 
+            --text-color: #ffffff; 
+            --accent-color: #f7d188; 
+            --panel-bg: #1a2530; 
+            --sub-text: #9ab4cc; 
+            --discord-purple: #a482ff; /* Няшный фиолетовый для ДС */
+            --btn-bg: rgba(255, 255, 255, 0.07);
+            --btn-hover: rgba(247, 209, 136, 0.2);
         }
 
         * {
@@ -29,8 +32,8 @@
             align-items: center;
             min-height: 100vh;
             background-image: radial-gradient(circle, #2a3e5c 1px, transparent 1px);
-            background-size: 50px 50px; /* Звёздное небо на минималках */
-            overflow: hidden; /* Чтобы не скроллился весь body */
+            background-size: 50px 50px; 
+            padding: 40px 20px;
         }
 
         /* === Главная панель (Центр) === */
@@ -38,76 +41,83 @@
             background-color: var(--panel-bg);
             border: 2px solid var(--accent-color);
             border-radius: 20px;
-            width: 80vw; /* Адаптивная ширина на ПК */
-            max-width: 1000px; /* Чтобы не растягивалась слишком сильно */
-            height: 90vh; /* Почти вся высота экрана */
-            overflow: hidden; /* Обрезаем, если контент больше */
+            width: 85vw; 
+            max-width: 1100px; 
+            min-height: 85vh;
             position: relative;
-            box-shadow: 0 0 30px rgba(247, 209, 136, 0.2);
+            box-shadow: 0 0 30px rgba(247, 209, 136, 0.15);
             display: grid;
-            grid-template-columns: 2fr 3fr; /* Две колонки: Аватар+Инфо и Статы */
+            grid-template-columns: 2fr 3fr; 
         }
 
-        /* === Левая колонка (Аватар, Имя, Инфо) === */
+        /* === Левая колонка (Аватар, Имя) === */
         .left-column {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Центрируем по вертикали */
+            justify-content: center; 
             padding: 40px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(180deg, rgba(26,37,48,1) 0%, rgba(15,23,33,1) 100%);
+            border-radius: 18px 0 0 18px;
         }
 
         .avatar {
-            width: 180px;
-            height: 180px;
+            width: 190px;
+            height: 190px;
             border-radius: 50%;
             border: 4px solid var(--accent-color);
             margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 25px rgba(247, 209, 136, 0.2);
+            object-fit: cover;
         }
 
         .nickname {
-            font-size: 2em;
+            font-size: 1.8em;
             text-align: center;
             margin-bottom: 15px;
             letter-spacing: 1px;
+            line-height: 1.3;
         }
 
         .quote {
-            font-size: 1em;
-            color: var(--accent-color);
+            font-size: 0.95em;
+            color: var(--sub-text);
             font-style: italic;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.5;
+            max-width: 280px;
         }
 
-        /* === Правая колонка (Статы) === */
+        /* === Правая колонка (Контент) === */
         .right-column {
-            padding: 40px;
+            padding: 50px;
             display: flex;
             flex-direction: column;
-            gap: 30px; /* Расстояние между статами */
+            gap: 35px; 
+            justify-content: center;
         }
 
         .stat-item {
             display: flex;
-            align-items: center;
-            gap: 20px;
+            align-items: flex-start;
+            gap: 25px;
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
+            margin-top: 3px;
         }
 
         .stat-icon img {
             width: 100%;
             height: auto;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .stat-content {
@@ -118,175 +128,163 @@
         .stat-title {
             color: var(--accent-color);
             text-transform: uppercase;
-            font-size: 1.2em;
+            font-size: 1.15em;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            font-weight: bold;
         }
 
         .stat-data {
             color: var(--text-color);
-            font-size: 0.95em;
+            font-size: 0.98em;
             line-height: 1.6;
         }
 
-        /* === Боковая панель (Меню) === */
-        .side-menu {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        /* Фиолетовое выделение для ДС */
+        .discord-highlight {
+            color: var(--discord-purple);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(164, 130, 255, 0.3);
         }
 
-        .menu-btn {
-            width: 40px;
-            height: 40px;
-            background-color: var(--panel-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+        /* === Кнопочки (Ссылки) === */
+        .btn-container {
             display: flex;
-            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .custom-btn {
+            display: inline-flex;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--btn-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.25s ease-in-out;
         }
 
-        .menu-btn:hover {
+        .custom-btn:hover {
+            background-color: var(--btn-hover);
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(247, 209, 136, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 209, 136, 0.15);
         }
 
-        .menu-btn span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background-color: var(--text-color);
-            position: relative;
+        .custom-btn img {
+            width: 18px;
+            height: 18px;
         }
 
-        .menu-btn span::before,
-        .menu-btn span::after {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 2px;
-            background-color: var(--text-color);
-            position: absolute;
-        }
-
-        .menu-btn span::before { top: -6px; }
-        .menu-btn span::after { top: 6px; }
-
-        /* === Нижняя подпись === */
-        .credits {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--sub-text);
-            font-size: 0.8em;
-            letter-spacing: 1px;
-        }
-
-        /* === Адаптация (если вдруг кто-то откроет с телефона) === */
-        @media (max-width: 768px) {
+        /* === Адаптация под мобилки === */
+        @media (max-width: 850px) {
+            body { padding: 20px 10px; }
             .main-card {
-                width: 90vw;
-                height: auto;
-                grid-template-columns: 1fr; /* Одна колонка */
-                overflow: visible; /* Разрешаем скролл */
+                grid-template-columns: 1fr;
+                width: 100%;
+                min-height: auto;
             }
-
             .left-column {
                 border-right: none;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                padding: 30px;
+                border-radius: 18px 18px 0 0;
+                padding: 40px 20px;
             }
-
-            .avatar {
-                width: 150px;
-                height: 150px;
-            }
-
-            .nickname { font-size: 1.5em; }
-            
-            .right-column { padding: 30px; gap: 20px; }
-            .stat-icon { width: 50px; height: 50px; }
-            
-            .side-menu { left: 10px; top: auto; bottom: 20px; transform: none; flex-direction: row; }
+            .right-column { padding: 35px 20px; gap: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Боковое меню -->
-    <div class="side-menu">
-        <div class="menu-btn"><span></span></div>
-        <div class="menu-btn"><span></span></div>
-        <div class="menu-btn"><span></span></div>
-        <div class="menu-btn"><span></span></div>
-        <div class="menu-btn"><span></span></div>
-        <div class="menu-btn"><span></span></div>
-    </div>
-
-    <!-- Основная карточка -->
     <div class="main-card">
         
         <!-- Левая колонка -->
         <div class="left-column">
-            <!-- Замени на свой файл, если есть. Если нет, я создал похожий -->
-            <img src="avatar.png" alt="Raccoon Avatar" class="avatar">
-            <h1 class="nickname">EVGENY28 (ЖЕКА/ЕВГЕНИЙ/<br>ЖЕНЁК)</h1>
-            <p class="quote">«Я просто скитаюсь по жизни, и попутно<br>коллекционирую фобии»</p>
+            <img src="avatar.png" alt="Avatar" class="avatar">
+            <h1 class="nickname">EVGENY28<br>(ЖЕКА/ЕВГЕНИЙ/<br>ЖЕНЁК)</h1>
+            <p class="quote">«Я просто скитаюсь по жизни, и попутно коллекционирую фобии»</p>
         </div>
 
         <!-- Правая колонка -->
         <div class="right-column">
             
-            <!-- Стат 1: Локация -->
+            <!-- CATEGORY: PERSON -->
             <div class="stat-item">
                 <div class="stat-icon">
-                    <!-- Иконка гео-тега (можно заменить на SVG) -->
+                    <img src="https://img.icons8.com/color/100/user-male-circle--v1.png" alt="person">
+                </div>
+                <div class="stat-content">
+                    <div class="stat-title">PERSON</div>
+                    <div class="stat-data">
+                        Простой челодой моловек в возрасте 15 лет :3<br>
+                        увлекается фурри сообществом, играми и разработкой игр<br>
+                        Слушает исполнителей из объединения "Агония", а также Lazzy2Wice и Специфику<br>
+                        Тактильная персона >w<<br>
+                        Любит РПшки и комфорт в общении uwu
+                    </div>
+                    <!-- Кнопочки для связи -->
+                    <div class="btn-container">
+                        <a href="https://t.me/evgeny28blogrr" target="_blank" class="custom-btn">
+                            <img src="https://img.icons8.com/color/100/telegram-app.png" alt="tg"> Мой Блог
+                        </a>
+                        <a href="https://t.me/evgeny28qwq" target="_blank" class="custom-btn">
+                            <img src="https://img.icons8.com/color/100/telegram-app.png" alt="tg-pm"> ЛС в ТГ
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY: LOCATION -->
+            <div class="stat-item">
+                <div class="stat-icon">
                     <img src="https://img.icons8.com/color/100/marker.png" alt="marker">
                 </div>
                 <div class="stat-content">
                     <div class="stat-title">LOCATION</div>
-                    <div class="stat-data">Челодой моловек живёт в Грузии,<br>говорит на русском, и технический админ</div>
+                    <div class="stat-data">Грузия / Батуми (часовой пояс Тбилиси)</div>
                 </div>
             </div>
 
-            <!-- Стат 2: Сетап (ПК) -->
+            <!-- CATEGORY: SETUP -->
             <div class="stat-item">
                 <div class="stat-icon">
-                    <!-- Иконка ПК -->
-                    <img src="https://img.icons8.com/color/100/imac.png" alt="imac">
+                    <img src="https://img.icons8.com/color/100/workstation.png" alt="setup">
                 </div>
                 <div class="stat-content">
                     <div class="stat-title">SETUP</div>
-                    <div class="stat-data">ОЗУ: 32GB DDR4 | Видео: RTX 3070 Ti<br>Проц: i7-10700K | Память: 450GB SSD</div>
+                    <div class="stat-data">ОЗУ: 32GB DDR4 | Видеокарточка RTX 5070Ti | Проц i7-10700K | Память NVMe PCIe 3.0 1TB & Sata SSD 960GB</div>
                 </div>
             </div>
 
-            <!-- Стат 3: Гейминг -->
+            <!-- CATEGORY: GAMING -->
             <div class="stat-item">
                 <div class="stat-icon">
-                    <!-- Иконка джойстика -->
-                    <img src="https://img.icons8.com/color/100/controller.png" alt="controller">
+                    <img src="https://img.icons8.com/color/100/controller.png" alt="gaming">
                 </div>
                 <div class="stat-content">
                     <div class="stat-title">GAMING</div>
-                    <div class="stat-data">Changed | Indigo Park | Garry's Mod<br>Любимые игры + Любовь: Уже занят 💘</div>
+                    <div class="stat-data">
+                        Changed, Indigo Park, и Garry's Mod<br>
+                        Любовь: Уже занят 💘<br>
+                        <span class="discord-highlight">Evgeny28</span> — Ник в ДС
+                    </div>
+                    <div class="btn-container">
+                        <a href="https://steamcommunity.com/id/evgesha28/" target="_blank" class="custom-btn">
+                            <img src="https://img.icons8.com/color/100/steam.png" alt="steam"> Steam Профиль
+                        </a>
+                    </div>
                 </div>
             </div>
 
         </div>
 
     </div>
-
-    <!-- Подпись внизу -->
-    <div class="credits">DESIGNED FOR PC</div>
 
 </body>
 </html>

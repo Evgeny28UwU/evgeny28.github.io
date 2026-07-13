@@ -33,7 +33,15 @@
             position: relative;
             padding: 40px 20px;
             overflow-x: hidden;
-            background-color: var(--fallback-bg);
+            
+            /* ФОНОВАЯ КАРТИНКА: Вставь свою ссылку с Кэтбокса вместо моей ниже */
+            background-image: url('https://files.catbox.moe/ТВОЯ_КАРТИНКА.png');
+            
+            /* Настройки, чтобы фотка не размножалась и плавно заполняла экран */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Фиксирует фон при скролле */
         }
 
         .video-bg {
@@ -231,10 +239,7 @@
 </head>
 <body>
 
-    <!-- Одно видео на весь фон без лишней нагрузки -->
-    <video autoplay loop muted playsinline class="video-bg">
-        <source src="https://files.catbox.moe/ad64h7.mp4" type="video/mp4">
-    </video>
+    <!-- Видео удалили, оставили только лёгкое тёмное затемнение поверх фотки -->
     <div class="video-overlay"></div>
 
     <div class="main-card">

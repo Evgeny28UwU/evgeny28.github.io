@@ -9,11 +9,13 @@
         :root {
             --text-color: #ffffff; 
             --accent-color: #f7d188; 
-            --panel-bg: rgba(26, 37, 48, 0.85); /* Сделали панель прозрачной под видео */
+            --panel-bg: rgba(26, 37, 48, 0.85); 
             --sub-text: #9ab4cc; 
             --discord-purple: #a482ff; 
             --btn-bg: rgba(255, 255, 255, 0.07);
             --btn-hover: rgba(247, 209, 136, 0.2);
+            /* ЗАПАСНОЙ ФОН: Если видео не загрузится, сайт будет таким тёмно-синим */
+            --fallback-bg: #0b111a; 
         }
 
         * {
@@ -32,6 +34,8 @@
             position: relative;
             padding: 40px 20px;
             overflow-x: hidden;
+            /* Устанавливаем запасной фон */
+            background-color: var(--fallback-bg);
         }
 
         /* === Видео-фон === */
@@ -46,9 +50,17 @@
             z-index: -2;
             transform: translate(-50%, -50%);
             object-fit: cover;
+            /* Скрываем видео по умолчанию, пока оно не загрузится */
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
         }
 
-        /* Тёмный фильтр поверх видео, чтобы текст читался идеально */
+        /* Показываем видео, когда оно готово */
+        .video-bg.loaded {
+            opacity: 1;
+        }
+
+        /* Тёмный фильтр поверх видео */
         .video-overlay {
             position: fixed;
             top: 0;
@@ -59,7 +71,7 @@
             z-index: -1;
         }
 
-        /* === Главная панель (Центр) === */
+        /* === Главная панель === */
         .main-card {
             background-color: var(--panel-bg);
             border: 2px solid var(--accent-color);
@@ -71,7 +83,7 @@
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
             display: grid;
             grid-template-columns: 2fr 3fr; 
-            backdrop-filter: blur(10px); /* Красивое размытие видео за панелью */
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
 
@@ -226,9 +238,12 @@
 </head>
 <body>
 
-    <!-- Тег видео для твоего собственного фона -->
-    <video autoplay loop muted playsinline class="video-bg">
+    <!-- Тег видео для фона. Мы убрали 'autoplay' и добавили 'id' -->
+    <video loop muted playsinline id="bgVideo" class="video-bg">
+        <!-- Убедись, что файл bg.mp4 лежит в той же папке! -->
         <source src="bg.mp4" type="video/mp4">
+        <!-- Здесь можно добавить запасную картинку, если видео совсем не поддерживается -->
+        <img src="fallback.jpg" alt="Fallback Background">
     </video>
     <div class="video-overlay"></div>
 
@@ -314,6 +329,23 @@
         </div>
 
     </div>
+
+    <!-- МАГИЧЕСКИЙ СКРИПТ: Запускает видео, когда страница готова -->
+    <script>
+        window.addEventListener('load', function() {
+            var video = document.getElementById('bgVideo');
+            
+            // Пробуем запустить видео
+            video.play().then(function() {
+                // Если запустилось, добавляем класс 'loaded', чтобы показать его плавно
+                video.classList.add('loaded');
+            }).catch(function(error) {
+                // Если браузер заблокировал автозапуск, видео останется скрытым
+                // и будет виден запасной фон body. Это нормально!
+                console.log("Автозапуск видео заблокирован: ", error);
+            });
+        });
+    </style>
 
 </body>
 </html>
